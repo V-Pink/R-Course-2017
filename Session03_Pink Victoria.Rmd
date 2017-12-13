@@ -1,0 +1,107 @@
+---
+title: "Session03"
+author: "Victoria Pink"
+date: "10 Dezember 2017"
+output: html_document
+---
+
+Kapitel 4 - Summary Statistics
+
+Um eine Statistik auszuwerten und graphisch darzustellen, gibt es verschiedene möglichkeiten.
+So kann man zum Beispiel den mean, also den mittleren Durchschnitt.
+Neben einem normalen Barplott kann man innerhalb von diesem eine Linie, wie den mean oder median anzeigen lassen.
+Dabei wird beim mean die Summe der Werte durch deren Anzahl geteil, beim median hingegen, werden die Werte Sortiert und der mittlere Wert ermittelt. 
+
+```{r}
+limbs <- c(4, 3, 4, 3, 2, 4, 4, 4)
+mean(limbs)
+
+barplot(limbs)
+abline(h = mean(limbs))
+
+
+
+limbs <- c(4, 3, 4, 3, 2, 4, 4, 14)
+names(limbs) <- c('One-Eye', 'Peg-Leg', 'Smitty', 'Hook', 'Scooter', 'Dan', 'Mikey', 'Davy Jones')
+median(limbs)
+barplot(limbs)
+abline(h=median(limbs))
+```
+
+
+ Um zu berechnen, wie stark die Streuung der Werte um einen Mittelwert ist, also die Standardabweichung, verwendet man die Funktion sd()
+ 
+```{r}
+pounds <- c(45000, 50000, 35000, 40000, 35000, 45000, 10000, 15000)
+deviation <- sd(pounds)
+meanValue <- mean(pounds)
+barplot(limbs)
+abline(h = meanValue + deviation)
+```
+
+
+
+
+
+Kapitel 5 - Factors
+
+Faktoren enthalten im Gegensatz zu Vektoren keine Zeichenketten, sondern Referenzen auf Intteger Zahlen. Aus diesem Grund werden bei der ausgabe eines Faktors auch keine Quotes angegeben.
+
+```{r}
+chests <- c('gold', 'silver', 'gems', 'gold', 'gems')
+types <- factor(chests)
+print(chests)
+print(types)
+
+```
+
+Möchte man die Referenzen haben, so verwendet man die Funktion as.integer(). Die Einzelnen Elemtente können als String mit Hilfe von levels() ausgegeben werden.
+
+```{r}
+as.integer(types)
+levels(types)
+```
+
+Wenn man sich die Ausgabe genau anschaut, sieht man recht schnell, dass hier den einzelnen Wörtern Types zugeordnet werden.
+
+Versucht man nun eine graphische Darstellung mit von Faktoren mit Hilfe von plot() zu erstellen, fällt auf, dass diese sehr unübersichtlich ist, daman hier nicht erkennen kann welche Markierung welches Merkmal darstellt.
+
+```{r}
+weights <- c(300, 200, 100, 250, 150)
+prices <- c(9000, 5000, 12000, 7500, 18000)
+plot(weights, prices, pch=as.integer(types))
+```
+
+Um diesem Problem entgegen zu wirken führt man eine Legende ein.
+
+```{r}
+legend("topright", levels(types), pch=1:length(levels(types)))
+```
+
+
+
+Kapitel 6 - Data Frames
+
+Eine weitere Datenstrukturneben dem Vektor ist data.frame. Sie agiert wie eine Übersichtstabelle, was man sehr gut erkennt, wenn wir das vorherige Beispiel verwenden.
+
+```{r}
+treasure <- data.frame(weights, prices, types)
+print(treasure)
+``` 
+
+Der Zugriff auf einzelne Spalten erfolgt ähnlich, wie bei Matrizen.
+
+```{r}
+treasure[["weights"]]
+treasure$prices
+```
+
+Möchte man in R mit Data-Frames arbeite, so kann man diese auch als *.csv Datei importieren.
+
+
+
+
+Kapitel 7- Real-World Data
+
+
+Um detailreichtere Graphiken zu erstellen, wird in diesem Kapitel das Package "ggplot2" vorgeschlagen.
